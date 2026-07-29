@@ -361,3 +361,26 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ASP.NET Core local configuration
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+secrets.json
+
+# User uploaded files
+wwwroot/uploads/
+wwwroot/images/uploads/
+
+# Local databases
+*.sqlite
+*.sqlite3
+
+# Temporary backup files
+*.bak
+*.backup
