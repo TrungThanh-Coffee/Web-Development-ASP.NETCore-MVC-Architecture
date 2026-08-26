@@ -1,0 +1,364 @@
+﻿@model project_cuoiky.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    decimal salePrice = Model.Price;
+
+    if (Model.Promotion > 0)
+    {
+        salePrice =
+            Model.Price -
+            (Model.Price * Model.Promotion / 100);
+    }
+}
+
+<div class="content_section product_detail_section">
+
+
+    <div class="product_detail_breadcrumb">
+
+        <a asp-controller="Home"
+           asp-action="Index">
+
+            Home
+
+        </a>
+
+        <span>&raquo;</span>
+
+        <span>
+            @(Model.Category?.Name ?? "Product")
+        </span>
+
+        <span>&raquo;</span>
+
+        <strong>
+            Detail
+        </strong>
+
+    </div>
+
+
+    <h2>Product Detail</h2>
+
+
+    @if (TempData["CartError"] != null)
+    {
+        <div class="cart_message cart_error">
+
+            @TempData["CartError"]
+
+        </div>
+    }
+
+
+    @if (TempData["CartMessage"] != null)
+    {
+        <div class="cart_message cart_success">
+
+            @TempData["CartMessage"]
+
+        </div>
+    }
+
+
+    <div class="product_detail_top">
+
+
+        <div class="product_detail_image_box">
+
+            <img src="~/assets/images02/@Model.Image"
+                 alt="@Model.Name" />
+
+        </div>
+
+        <div class="product_detail_info">
+
+
+            <h1>
+                @Model.Name
+            </h1>
+
+
+            <div class="product_detail_category">
+
+                Category:
+
+                <strong>
+                    @(Model.Category?.Name ?? "Updating")
+                </strong>
+
+            </div>
+
+
+            @if (Model.Promotion > 0)
+            {
+                <div class="product_detail_old_price">
+
+                    @Model.Price.ToString("N0") đ
+
+                </div>
+
+
+                <div class="product_detail_price">
+
+                    @salePrice.ToString("N0") đ
+
+                </div>
+
+
+                <div class="product_detail_promotion">
+
+                    Save @Model.Promotion.ToString("0.##")%
+
+                </div>
+            }
+            else
+            {
+                <div class="product_detail_price">
+
+                    @Model.Price.ToString("N0") đ
+
+                </div>
+            }
+
+
+            <div class="product_detail_stock @(Model.Quantity > 0 ? "in_stock" : "out_of_stock")">
+
+                @if (Model.Quantity > 0)
+                {
+                    <span>
+
+                        In stock:
+                        @Model.Quantity
+                        product(s)
+
+                    </span>
+                }
+                else
+                {
+                    <span>
+
+                        Out of stock
+
+                    </span>
+                }
+
+            </div>
+
+
+            <div class="product_detail_actions">
+
+
+                @if (Model.Quantity > 0)
+                {
+                    <form asp-controller="Cart"
+                          asp-action="Add"
+                          method="post"
+                          class="detail_cart_form">
+
+
+                        @* ID sản phẩm *@
+                        <input type="hidden"
+                               name="productId"
+                               value="@Model.Id" />
+
+
+                        <div class="detail_quantity_box">
+
+                            <label for="quantity">
+                                Quantity:
+                            </label>
+
+
+                            <input type="number"
+                                   id="quantity"
+                                   name="quantity"
+                                   value="1"
+                                   min="1"
+                                   max="@Model.Quantity" />
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="detail_buy_button">
+
+                            Add to Cart
+
+                        </button>
+
+
+                    </form>
+                }
+                else
+                {
+                    <span class="detail_buy_button disabled">
+
+                        Out of Stock
+
+                    </span>
+                }
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="detail_back_button">
+
+                    Back to Products
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="cleaner"></div>
+
+    </div>
+
+
+    <div class="product_detail_block">
+
+        <h3>
+            Perfume Information
+        </h3>
+
+
+        <table class="product_detail_table">
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Volume
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.Volume)
+                            ? Model.Volume
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Concentration
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.Concentration)
+                            ? Model.Concentration
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Fragrance Family
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.FragranceFamily)
+                            ? Model.FragranceFamily
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Longevity
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.Longevity)
+                            ? Model.Longevity
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Sillage
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.Sillage)
+                            ? Model.Sillage
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+                        Recommended Time
+                    </th>
+
+                    <td>
+
+                        @(
+                            !string.IsNullOrWhiteSpace(Model.RecommendedTime)
+                            ? Model.RecommendedTime
+                            : "Updating"
+                            )
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="product_detail_block product_detail_description">
+
+        <h3>
+            Description
+        </h3>
+
+
+        <p>
+            @Model.Description
+        </p>
+
+    </div>
+
+
+</div>

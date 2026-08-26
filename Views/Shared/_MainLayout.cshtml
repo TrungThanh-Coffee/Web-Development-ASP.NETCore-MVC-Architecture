@@ -40,15 +40,63 @@
 <body>
     <div id="templatemo_wrapper">
         <div id="templatemo_menu">
-            <ul>
-                <li><a href="#" class="current"><span>.01</span>Home</a></li>
-                <li><a href="http://www.templatemo.com/page/1" target="_parent"><span>.02</span>Templates</a></li>
-                <li><a href="http://www.flashmo.com/page/1" target="_parent"><span>.03</span>Flash</a></li>
-                <li><a href="http://www.koflash.com" target="_parent"><span>.04</span>Gallery</a></li>
-                <li><a href="#"><span>.05</span>Company</a></li>
-                <li><a href="#"><span>.06</span>Contact</a></li>
-            </ul>
-        </div> <!-- end of templatemo_menu -->
+
+    <ul>
+
+        <li>
+
+            <a asp-controller="Home"
+               asp-action="Index">
+
+                <span>.01</span>
+
+                Home
+
+            </a>
+
+        </li>
+
+
+        @await Html.PartialAsync("_CartPartial")
+
+
+<li>
+
+    <a asp-controller="Product"
+       asp-action="Index">
+
+        <span>.03</span>
+
+        Products
+
+    </a>
+
+</li>
+
+
+        <li>
+            <a href="#">
+                <span>.04</span>Gallery
+            </a>
+        </li>
+
+
+        <li>
+            <a href="#">
+                <span>.05</span>Company
+            </a>
+        </li>
+
+
+        <li>
+            <a href="#">
+                <span>.06</span>Contact
+            </a>
+        </li>
+
+    </ul>
+
+</div> <!-- end of templatemo_menu -->
 
         <div id="templatemo_header_bar">
 
@@ -81,7 +129,10 @@
 
                 <h2>Members</h2>
 
-                <form action="#" method="get">
+
+                <partial name="_LoginPartial" />
+
+ @*                <form action="#" method="get">
                     <label>Username</label>
                     <input type="text" value="" name="username" size="10" class="input_field" title="username" />
                     <label>Password</label>
@@ -90,13 +141,15 @@
                     <input type="submit" name="login" value="Login" alt="Login" id="submit_btn" title="Login" />
                 </form>
 
-                <div class="cleaner"></div>
+                <div class="cleaner"></div> *@
+
+
 
             </div>
 
             <div class="sidebar_section">
-
-                <h2>Categories</h2>
+                @await Component.InvokeAsync("Category")
+@*                 <h2>Categories</h2>
 
                 <ul class="categories_list">
                     <li><a href="#">Lorem ipsum dolor</a></li>
@@ -110,7 +163,7 @@
                     <li><a href="#">Aliquam sollicitudin</a></li>
                     <li><a href="#">Nunc fermentum</a></li>
                 </ul>
-            </div>
+            </div> *@
 
             <div class="sidebar_section">
 
@@ -122,151 +175,170 @@
             </div>
 
         </div> <!-- end of sidebar -->
-        
-
-         <div id="templatmeo_content">
-
-                 @RenderBody()
-
-        @*<div id="latest_product_gallery">
-
-        <h2>Featured Products</h2>
-
-        <div id="SlideItMoo_outer">
-        <div id="SlideItMoo_inner">
-        <div id="SlideItMoo_items">
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_01.png" alt="product 1" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_02.png" alt="product 2" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_03.png" alt="product 3" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_04.png" alt="product 4" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_05.png" alt="product 5" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_06.png" alt="product 6" />
-        </a>
-
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_07.png" alt="product 7" />
-        </a>
-        </div>
-        <div class="SlideItMoo_element">
-        <a href="#">
-        <img src="~/assets/images/templatemo_product_08.png" alt="product 8" />
-        </a>
-        </div>
-        </div>
-        </div>
-        </div>
-
-        </div> <!-- end of latest_content_gallery -->
-        @RenderBody()
 
 
-        <div class="content_section">
+        <div id="templatmeo_content">
 
-        <h2>Welcome to Pink Shop</h2>
+               @{
+        var controllerName =
+            ViewContext.RouteData.Values["controller"]?.ToString();
 
-        <p><a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a> are provided by <a href="http://www.templatemo.com" target="_parent">TemplateMo.com</a> for everyone. Feel free to use this template for your websites. Credit goes to <a href="http://www.photovaco.com" target="_blank">Free Photos</a> for photos used in this template. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et quam vitae ipsum vulputate varius vitae semper nunc. Quisque eget elit quis augue pharetra feugiat.</p>
-        </div>
+        var actionName =
+            ViewContext.RouteData.Values["action"]?.ToString();
 
-        <div class="content_section">
+        bool isHomePage =
+            controllerName == "Home" &&
+            actionName == "Index";
+    }
 
-        <h2>Our Products</h2>
+    @if (!isHomePage)
+    {
 
-        <div class="product_box margin_r35">
+        <div style="height: 282px;"></div>
+    }
 
-        <h3>Phasellus eget lorem</h3>
+            @RenderBody()
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/1" target="_parent"><img src="~/assets/images/image_02.jpg" alt="product 2" /></a> </div>
+          @*<div id="latest_product_gallery">
 
-        <p class="price">Price: $350</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            <h2>Featured Products</h2>
 
-        </div>
+            <div id="SlideItMoo_outer">
+            <div id="SlideItMoo_inner">
+            <div id="SlideItMoo_items">
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_01.png" alt="product 1" />
+            </a>
 
-        <div class="product_box margin_r35">
-        <h3>Nunc condimentum</h3>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_02.png" alt="product 2" />
+            </a>
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/2" target="_parent"><img src="~/assets/images/image_03.jpg" alt="product 3" /></a> </div>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_03.png" alt="product 3" />
+            </a>
 
-        <p class="price">Price: $550</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_04.png" alt="product 4" />
+            </a>
 
-        <div class="product_box">
-        <h3>Sed sit amet sem</h3>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_05.png" alt="product 5" />
+            </a>
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/3" target="_parent"><img src="~/assets/images/image_04.jpg" alt="product 4" /></a> </div>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_06.png" alt="product 6" />
+            </a>
 
-        <p class="price">Price: $250</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_07.png" alt="product 7" />
+            </a>
+            </div>
+            <div class="SlideItMoo_element">
+            <a href="#">
+            <img src="~/assets/images/templatemo_product_08.png" alt="product 8" />
+            </a>
+            </div>
+            </div>
+            </div>
+            </div>
 
-        <div class="cleaner"></div>
+            </div> <!-- end of latest_content_gallery -->
+            @RenderBody()
 
-        <div class="product_box margin_r35">
-        <h3>Etiam vitae consequat</h3>
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/4" target="_parent"><img src="~/assets/images/image_05.jpg" alt="product 5" /></a> </div>
+            <div class="content_section">
 
-        <p class="price">Price: $850</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+            <h2>Welcome to Pink Shop</h2>
 
-        <div class="product_box margin_r35">
-        <h3> Vivamus at justo</h3>
+            <p><a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a> are provided by <a href="http://www.templatemo.com" target="_parent">TemplateMo.com</a> for everyone. Feel free to use this template for your websites. Credit goes to <a href="http://www.photovaco.com" target="_blank">Free Photos</a> for photos used in this template. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et quam vitae ipsum vulputate varius vitae semper nunc. Quisque eget elit quis augue pharetra feugiat.</p>
+            </div>
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/5" target="_parent"><img src="~/assets/images/image_06.jpg" alt="product 6" /></a> </div>
+            <div class="content_section">
 
-        <p class="price">Price: $450</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+            <h2>Our Products</h2>
 
-        <div class="product_box">
-        <h3> Vivamus at justo</h3>
+            <div class="product_box margin_r35">
 
-        <div class="image_wrapper"> <a href="http://www.templatemo.com/page/6" target="_parent"><img src="~/assets/images/image_07.jpg" alt="product 7" /></a> </div>
+            <h3>Phasellus eget lorem</h3>
 
-        <p class="price">Price: $350</p>
-        <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/1" target="_parent"><img src="~/assets/images/image_02.jpg" alt="product 2" /></a> </div>
 
-        <div class="cleaner"></div>
+            <p class="price">Price: $350</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
 
-        <div class="button_01"><a href="#">View All</a></div>
+            </div>
 
-        </div>
-        *@
-        </div> <!-- end of templatmeo_content --> 
+            <div class="product_box margin_r35">
+            <h3>Nunc condimentum</h3>
 
-        
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/2" target="_parent"><img src="~/assets/images/image_03.jpg" alt="product 3" /></a> </div>
+
+            <p class="price">Price: $550</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            </div>
+
+            <div class="product_box">
+            <h3>Sed sit amet sem</h3>
+
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/3" target="_parent"><img src="~/assets/images/image_04.jpg" alt="product 4" /></a> </div>
+
+            <p class="price">Price: $250</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            </div>
+
+            <div class="cleaner"></div>
+
+            <div class="product_box margin_r35">
+            <h3>Etiam vitae consequat</h3>
+
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/4" target="_parent"><img src="~/assets/images/image_05.jpg" alt="product 5" /></a> </div>
+
+            <p class="price">Price: $850</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            </div>
+
+            <div class="product_box margin_r35">
+            <h3> Vivamus at justo</h3>
+
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/5" target="_parent"><img src="~/assets/images/image_06.jpg" alt="product 6" /></a> </div>
+
+            <p class="price">Price: $450</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            </div>
+
+            <div class="product_box">
+            <h3> Vivamus at justo</h3>
+
+            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/6" target="_parent"><img src="~/assets/images/image_07.jpg" alt="product 7" /></a> </div>
+
+            <p class="price">Price: $350</p>
+            <a href="#">Detail</a> | <a href="#">Buy Now</a>
+            </div>
+
+            <div class="cleaner"></div>
+
+            <div class="button_01"><a href="#">View All</a></div>
+
+            </div>*@
+
+
+        </div> <!-- end of templatmeo_content -->
+
+
     </div> <!-- end of templatemo_wrapper -->
 
     <div id="templatemo_footer_wrapper">

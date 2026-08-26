@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
+@using project_cuoiky.Models
+@using project_cuoiky.Controllers
+
+
+@{
+    int totalQuantity = 0;
+
+
+    string? jsonCart =
+        Context.Session.GetString(
+            CartController.CARTKEY
+        );
+
+
+    if (!string.IsNullOrEmpty(jsonCart))
+    {
+        List<CartItem>? cart =
+            JsonSerializer
+                .Deserialize<List<CartItem>>(
+                    jsonCart
+                );
+
+
+        if (cart != null)
+        {
+            totalQuantity =
+                cart.Sum(x => x.Quantity);
+        }
+    }
+}
+
+
+<li>
+
+    <a asp-controller="Cart"
+       asp-action="Index">
+
+        <span>.02</span>
+
+        Cart (@totalQuantity)
+
+    </a>
+
+</li>

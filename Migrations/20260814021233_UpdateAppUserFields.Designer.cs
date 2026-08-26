@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using project_cuoiky.Data;
 
@@ -11,9 +12,11 @@ using project_cuoiky.Data;
 namespace project_cuoiky.Migrations
 {
     [DbContext(typeof(project_cuoikyContext))]
-    partial class project_cuoikyContextModelSnapshot : ModelSnapshot
+    [Migration("20260814021233_UpdateAppUserFields")]
+    partial class UpdateAppUserFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

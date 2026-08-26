@@ -1,143 +1,314 @@
-﻿@{
+﻿@model IEnumerable<project_cuoiky.Models.Product>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 @* <div id="templatmeo_content"> *@
 
-    <div id="latest_product_gallery">
 
-        <h2>Featured Products</h2>
-       
-        <div id="SlideItMoo_outer">
-            <div id="SlideItMoo_inner">
-                <div id="SlideItMoo_items">
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_01.png" alt="product 1" />
-                        </a>
+@* =========================================================
+   FEATURED PRODUCTS
+   ========================================================= *@
+<div id="latest_product_gallery">
 
-                    </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_02.png" alt="product 2" />
-                        </a>
+    <h2>Featured Products</h2>
 
-                    </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_03.png" alt="product 3" />
-                        </a>
+    <div id="SlideItMoo_outer">
 
-                    </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_04.png" alt="product 4" />
-                        </a>
+        <div id="SlideItMoo_inner">
 
-                    </div>
+            <div id="SlideItMoo_items">
+
+                @foreach (var product in Model.Take(8))
+                {
                     <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_05.png" alt="product 5" />
+
+                        @* Khi bấm vào ảnh Featured Product sẽ chuyển sang trang Detail *@
+                        <a asp-controller="Product"
+                           asp-action="Detail"
+                           asp-route-id="@product.Id">
+
+                            <img src="~/assets/images02/@product.Image"
+                                 alt="@product.Name"
+                                 style="max-width: 100%;
+                                        height: 100px;
+                                        object-fit: contain;" />
+
                         </a>
 
                     </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_06.png" alt="product 6" />
-                        </a>
+                }
 
-                    </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_07.png" alt="product 7" />
-                        </a>
-                    </div>
-                    <div class="SlideItMoo_element">
-                        <a href="#">
-                            <img src="~/assets/images/templatemo_product_08.png" alt="product 8" />
-                        </a>
-                    </div>
-                </div>
             </div>
+
         </div>
 
-    </div> <!-- end of latest_content_gallery -->
-
-
-
-    <div class="content_section">
-
-        <h2>Welcome to Pink Shop</h2>
-
-        <p><a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a> are provided by <a href="http://www.templatemo.com" target="_parent">TemplateMo.com</a> for everyone. Feel free to use this template for your websites. Credit goes to <a href="http://www.photovaco.com" target="_blank">Free Photos</a> for photos used in this template. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et quam vitae ipsum vulputate varius vitae semper nunc. Quisque eget elit quis augue pharetra feugiat.</p>
     </div>
 
-    <div class="content_section">
+</div>
+<!-- end of latest_content_gallery -->
+@* =========================================================
+   WELCOME
+   ========================================================= *@
+<div class="content_section">
 
-        <h2>Our Products</h2>
+    <h2>Welcome to Pink Shop</h2>
 
-        <div class="product_box margin_r35">
+    <p>
+        Welcome to Pink Shop, where you can discover a wide range
+        of perfumes for men, women and unisex.
+    </p>
 
-            <h3>Phasellus eget lorem</h3>
+</div>
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/1" target="_parent"><img src="~/assets/images/image_02.jpg" alt="product 2" /></a> </div>
 
-            <p class="price">Price: $350</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
 
-        </div>
+@* =========================================================
+   OUR PRODUCTS
+   ========================================================= *@
+<div class="content_section">
 
-        <div class="product_box margin_r35">
-            <h3>Nunc condimentum</h3>
+    <h2>Our Products</h2>
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/2" target="_parent"><img src="~/assets/images/image_03.jpg" alt="product 3" /></a> </div>
+    @{
+        int index = 0;
+    }
 
-            <p class="price">Price: $550</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
 
-        <div class="product_box">
-            <h3>Sed sit amet sem</h3>
+    @foreach (var product in Model.Take(6))
+    {
+        @* =====================================================
+    SẢN PHẨM THỨ 3, 6
+    Không cần margin bên phải
+    ===================================================== *@
+        if (index % 3 == 2)
+        {
+            <div class="product_box"
+                 style="float: left;
+                        width: 200px;">
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/3" target="_parent"><img src="~/assets/images/image_04.jpg" alt="product 4" /></a> </div>
+                <h3>
+                    @product.Category?.Name
+                </h3>
 
-            <p class="price">Price: $250</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
 
-        <div class="cleaner"></div>
+                <div class="image_wrapper">
 
-        <div class="product_box margin_r35">
-            <h3>Etiam vitae consequat</h3>
+                    @* Khi bấm vào ảnh sẽ chuyển sang Product Detail *@
+                    <a asp-controller="Product"
+                       asp-action="Detail"
+                       asp-route-id="@product.Id">
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/4" target="_parent"><img src="~/assets/images/image_05.jpg" alt="product 5" /></a> </div>
+                        <img src="~/assets/images02/@product.Image"
+                             alt="@product.Name"
+                             style="max-width: 100%;
+                                    height: 120px;
+                                    object-fit: contain;" />
 
-            <p class="price">Price: $850</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+                    </a>
 
-        <div class="product_box margin_r35">
-            <h3> Vivamus at justo</h3>
+                </div>
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/5" target="_parent"><img src="~/assets/images/image_06.jpg" alt="product 6" /></a> </div>
 
-            <p class="price">Price: $450</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
+                @* Tên sản phẩm *@
+                <p style="width: 200px;
+                          white-space: nowrap;
+                          overflow: hidden;
+                          text-overflow: ellipsis;"
+                   title="@product.Name">
 
-        <div class="product_box">
-            <h3> Vivamus at justo</h3>
+                    @product.Name
 
-            <div class="image_wrapper"> <a href="http://www.templatemo.com/page/6" target="_parent"><img src="~/assets/images/image_07.jpg" alt="product 7" /></a> </div>
+                </p>
 
-            <p class="price">Price: $350</p>
-            <a href="#">Detail</a> | <a href="#">Buy Now</a>
-        </div>
 
-        <div class="cleaner"></div>
+                @* Giá sản phẩm *@
+                <p class="price">
 
-        <div class="button_01"><a href="#">View All</a></div>
+                    Price: @product.Price.ToString("N0") đ
+
+                </p>
+
+
+                @* Link sang trang chi tiết sản phẩm *@
+                <a asp-controller="Product"
+                   asp-action="Detail"
+                   asp-route-id="@product.Id">
+
+                    Detail
+
+                </a>
+
+                |
+
+                @* =================================================
+        THÊM SẢN PHẨM VÀO GIỎ HÀNG
+        ================================================= *@
+                @if (product.Quantity > 0)
+                {
+                    <form asp-controller="Cart"
+                          asp-action="Add"
+                          method="post"
+                          style="display: inline;">
+
+                        <input type="hidden"
+                               name="productId"
+                               value="@product.Id" />
+
+                        <input type="hidden"
+                               name="quantity"
+                               value="1" />
+
+                        <button type="submit"
+                                class="cart_link_button">
+
+                            Buy Now
+
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <span style="color: red;">
+                        Out of Stock
+                    </span>
+                }
+
+            </div>
+        }
+
+
+        @* =====================================================
+    SẢN PHẨM THỨ 1, 2, 4, 5
+    Có margin bên phải
+    ===================================================== *@
+        else
+        {
+            <div class="product_box margin_r35"
+                 style="float: left;
+                        width: 200px;
+                        margin-right: 35px;">
+
+                <h3>
+                    @product.Category?.Name
+                </h3>
+
+
+                <div class="image_wrapper">
+
+                    @* Khi bấm vào ảnh sẽ chuyển sang Product Detail *@
+                    <a asp-controller="Product"
+                       asp-action="Detail"
+                       asp-route-id="@product.Id">
+
+                        <img src="~/assets/images02/@product.Image"
+                             alt="@product.Name"
+                             style="max-width: 100%;
+                                    height: 120px;
+                                    object-fit: contain;" />
+
+                    </a>
+
+                </div>
+
+
+                @* Tên sản phẩm *@
+                <p style="width: 200px;
+                          white-space: nowrap;
+                          overflow: hidden;
+                          text-overflow: ellipsis;"
+                   title="@product.Name">
+
+                    @product.Name
+
+                </p>
+
+
+                @* Giá sản phẩm *@
+                <p class="price">
+
+                    Price: @product.Price.ToString("N0") đ
+
+                </p>
+
+
+                @* Link sang trang chi tiết sản phẩm *@
+                <a asp-controller="Product"
+                   asp-action="Detail"
+                   asp-route-id="@product.Id">
+
+                    Detail
+
+                </a>
+
+                |
+
+                @* =================================================
+        THÊM SẢN PHẨM VÀO GIỎ HÀNG
+        ================================================= *@
+                @if (product.Quantity > 0)
+                {
+                    <form asp-controller="Cart"
+                          asp-action="Add"
+                          method="post"
+                          style="display: inline;">
+
+                        <input type="hidden"
+                               name="productId"
+                               value="@product.Id" />
+
+                        <input type="hidden"
+                               name="quantity"
+                               value="1" />
+
+                        <button type="submit"
+                                class="cart_link_button">
+
+                            Buy Now
+
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <span style="color: red;">
+                        Out of Stock
+                    </span>
+                }
+
+            </div>
+        }
+
+
+        index++;
+
+
+        @* Sau mỗi 3 sản phẩm thì clear float để xuống hàng *@
+        if (index % 3 == 0)
+        {
+            <div class="cleaner"></div>
+        }
+    }
+
+
+    <div class="cleaner"></div>
+
+
+    <div class="button_01">
+
+        <a asp-controller="Product"
+           asp-action="Index">
+
+            View All
+
+        </a>
 
     </div>
+
+</div>
+
 
 @* </div> <!-- end of templatmeo_content --> *@
